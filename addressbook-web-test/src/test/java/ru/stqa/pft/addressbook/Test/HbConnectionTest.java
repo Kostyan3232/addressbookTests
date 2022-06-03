@@ -1,5 +1,6 @@
 package ru.stqa.pft.addressbook.Test;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -15,7 +16,7 @@ public class HbConnectionTest {
     private SessionFactory sessionFactory;
 
     @BeforeClass
-        protected void setUp() throws Exception {
+        protected void setUp() {
             // A SessionFactory is set up once for an application!
             final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                     .configure() // configures settings from hibernate.cfg.xml
@@ -23,19 +24,19 @@ public class HbConnectionTest {
             try {
                 sessionFactory = new MetadataSources( registry ).buildMetadata().buildSessionFactory();
             }
-            catch (Exception e) {
-                e.printStackTrace();
-                // The registry would be destroyed by the SessionFactory, but we had trouble building the SessionFactory
-                // so destroy it manually.
-                StandardServiceRegistryBuilder.destroy( registry );
+
+                catch(Exception ex){
+                ex.printStackTrace();
+                StandardServiceRegistryBuilder.destroy(registry);
+                }
             }
-        }
+
        @Test
     public void testHbConnection(){
             Session session = sessionFactory.openSession();
             session.beginTransaction();
-            List result = session.createQuery( "from GroupData" ).list();
-            for ( GroupData group : (List<GroupData>) result ) {
+            List <GroupData> result = session.createQuery( "from GroupData" ).list();
+            for ( GroupData group :  result ) {
                 System.out.println( group );
             }
             session.getTransaction().commit();

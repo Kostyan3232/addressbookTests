@@ -4,7 +4,6 @@ package ru.stqa.pft.addressbook.generators;
 
 ;
 import com.thoughtworks.xstream.XStream;
-import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.GroupData;
 
 import java.io.File;
@@ -38,7 +37,7 @@ public class GroupDataGenerator {
         //System.out.println(new File(".").getAbsolutePath());
         Writer writer = new FileWriter(file);
         for(GroupData group: groups){
-            writer.write(String.format("%s;%s;%s\n",group.getName(),group.getHeadr(),group.getFooter()));
+            writer.write(String.format("%s;%s;%s\n",group.getName(),group.getHeader(),group.getFooter()));
         }
         writer.close();
     }
