@@ -20,7 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class GroupCreationTests extends TestBase{
   @DataProvider
   public Iterator<Object[]> validGroups() throws IOException {
-      BufferedReader reader = new BufferedReader(new FileReader("src/test/resource/groups.xml"));
+      BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/groups.xml"));
       String xml = "";
       String line = reader.readLine();
       while (line != null) {
@@ -49,13 +49,16 @@ public class GroupCreationTests extends TestBase{
   @Test(dataProvider = "validGroups")
   public void testGroupCreation(GroupData group)  {
     //GroupData group = new GroupData().withName(name).withHeader(header).withFooter(footer);
+      Groups before = app.db().groups();
       app.goTo().groupPage();
-      Groups before = app.Group().all();
       app.Group().createGroup(group);
-      Groups after = app.Group().all();
-      assertThat(after.size(), equalTo(before.size()+1));
-      assertThat(after, equalTo(
-             before.withAdded(group.withId((after.stream().mapToInt(GroupData::getId).max().getAsInt())))));
+      Groups after = app.db().groups();
+      //assertThat(after, equalTo(before));
+      //assertThat(after.size(), equalTo(before.size()+1));
+
+      assertThat(after, equalTo(before.withAdded(group.withId((after.stream().mapToInt(GroupData::getId).max().getAsInt())))));
+      verifyGroupListInUI();
+
 
     }
 
@@ -64,5 +67,6 @@ public class GroupCreationTests extends TestBase{
     //group.withId((after.stream().mapToInt(GroupDate::getId).max().getAsInt()));
 
   }
+
 
 

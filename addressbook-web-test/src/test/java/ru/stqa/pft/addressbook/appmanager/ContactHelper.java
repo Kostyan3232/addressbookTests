@@ -3,13 +3,15 @@ package ru.stqa.pft.addressbook.appmanager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 
 import java.io.File;
-import java.util.*;
+import java.util.List;
 
 public class ContactHelper extends HelperBase {
+
     public ContactHelper(WebDriver wd) {
         super(wd);
     }
@@ -47,12 +49,12 @@ public class ContactHelper extends HelperBase {
         typefirstname("firstname", contactDate.getFirstname());
         typefirstname("middlename", contactDate.getMiddlename());
         typefirstname("lastname", contactDate.getLastname());
-        typefirstname("address", contactDate.getAddres());
+        typefirstname("address", contactDate.getAddress());
         typefirstname("home", contactDate.getHomephone());
         typefirstname("mobile", contactDate.getMobile());
         typefirstname("work", contactDate.getWorkPhone());
         typefirstname("email", contactDate.getEmail());
-        attach("photo", contactDate .getPhoto());
+        //attach("photo", contactDate .getPhoto());
     }
 
     public void typefirstname(String locator, String text) {
@@ -109,7 +111,7 @@ public class ContactHelper extends HelperBase {
             String phone = element.findElement(By.xpath("//tr[@name='entry']/td[6]")).getText();
             String[] phones = phone.split("\n");
 
-            ContactData contact = new ContactData().withId(id).withFirstname(firstname).withLastname(lastname);
+            ContactData contact = new ContactData().withId(id).withFirstname(firstname).withLastname(lastname).withAddres(address);
                    // withHomephone(phones[0]).withMobile(phones[1]).withWorkphone(phones[2]).withAddres(address).withEmail(email);
             contacts.add(contact);
         }
@@ -153,6 +155,20 @@ public class ContactHelper extends HelperBase {
         return new ContactData().withId(contact.getId()).withFirstname(firstname).
                 withLastname(lastname).withHomephone(home).withMobile(mobile).withWorkphone(work).withAddres(address).withEmail(email);
     }
+    public void ContactAddInGroup(int id,String name) {
+        wd.findElement(By.xpath("//input[@value='"+ id +"']")).click();
+        new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(name);
+        click(By.name("add"));
+    }
 
+
+    public void ContactDelToGroup(int id, String name) {
+
+// в выпадающем списке выбрали имя группы в которую входит контакт
+            new Select(wd.findElement(By.name("group"))).selectByVisibleText(name);
+            wd.findElement(By.xpath("//input[@value='"+ id +"']")).click();
+            click(By.name("remove")); // активировали кнопку удалить контакт из выбранной группы с именем name
+
+    }
 
 }

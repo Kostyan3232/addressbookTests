@@ -6,6 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.*;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.Groups;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -14,8 +15,8 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class AddNewcontactTest extends TestBase{
-
+public class AddNewContactTest extends TestBase{
+    Logger logger = LoggerFactory.getLogger(AddNewContactTest.class);
 
   @DataProvider
   public Iterator<Object[]> validContacts() throws IOException {
@@ -38,19 +39,19 @@ public class AddNewcontactTest extends TestBase{
 
   @Test(dataProvider = "validContacts")
   public void testAddNewcontact(ContactData contact) throws Exception {
+
    // ContactData contact = new ContactData().withFirstname(firstname).withLastname(lastname).withMiddlename(middlename);
-      app.Contact().gotoHomePage();
-      Contacts before = app.Contact().ContactAll();
+      Contacts before = app.db().contacts();
       app.Contact().gotoAllNewPage();
-      File photo = new File("src/test/man.png");
+      //File photo = new File("src/test/man.png");
       app.Contact().createContact(contact);//new ContactData().withFirstname("Ttttt").
               //withMiddlename("YUj").withLastname("fghgfh").withAddres("Russia"));
              // withHomephone("55-88-99").withMobile("+79532559944").withWorkphone("55-55-88").withEmail("fsfsdfdsf").
               //withPhoto(photo));
-      Contacts after = app.Contact().ContactAll();
+      Contacts after = app.db().contacts();
 
       Assert.assertEquals(after.size(),before.size() +1);
-
+      verifyContactListInUI();
 
     }
 

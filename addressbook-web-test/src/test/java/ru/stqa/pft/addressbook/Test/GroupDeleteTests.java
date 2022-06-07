@@ -11,8 +11,8 @@ import ru.stqa.pft.addressbook.model.Groups;
 public class GroupDeleteTests extends TestBase{
   @BeforeMethod
   public  void ensurePreconditions(){
-    app.goTo().groupPage();
-    if (!app.Group().isThereAgroup()){
+    if (app.db().groups().size()==0){
+      app.goTo().groupPage();
       app.Group().createGroup(new GroupData().withName("Test2"));
     }
   }
@@ -20,14 +20,16 @@ public class GroupDeleteTests extends TestBase{
 
   @Test
   public void testDeleteGroup(){
-    Groups before = app.Group().all();
+    Groups before = app.db().groups();
     GroupData deletedGroup = before.iterator().next();
+    app.goTo().groupPage();
     app.Group().delete(deletedGroup);
-    Groups after = app.Group().all();
+    Groups after = app.db().groups();
     Assert.assertEquals(after.size(), before.size() -1);
     before.remove(deletedGroup);
     MatcherAssert.assertThat(after, CoreMatchers.equalTo(before.without(deletedGroup)));
-    Assert.assertEquals(before,after);
+    //Assert.assertEquals(before,after);
+    verifyGroupListInUI();
 
   }
 
