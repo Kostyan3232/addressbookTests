@@ -1,6 +1,8 @@
 package ru.stqa.pft.sandbox;
 
 
+import org.testng.annotations.Test;
+
 public class Primes {
 
   public static boolean isPrime(int n) {
