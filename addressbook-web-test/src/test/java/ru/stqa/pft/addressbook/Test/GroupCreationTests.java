@@ -1,4 +1,4 @@
-package ru.stqa.pft.addressbook.Test;
+/*package ru.stqa.pft.addressbook.Test;
 
 
 import com.thoughtworks.xstream.XStream;
@@ -66,7 +66,7 @@ public class GroupCreationTests extends TestBase{
 
     //group.withId((after.stream().mapToInt(GroupDate::getId).max().getAsInt()));
 
-  }
+  }*/
 
 
 
