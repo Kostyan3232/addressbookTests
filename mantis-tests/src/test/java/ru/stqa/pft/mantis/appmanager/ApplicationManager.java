@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.HttpSessionId;
 
 import java.io.File;
 import java.io.FileReader;
@@ -17,8 +18,11 @@ import static org.openqa.selenium.remote.BrowserType.*;
 
 public class ApplicationManager {
     private final String browser;
-    public WebDriver wd;
+    private  WebDriver wd;
     private final Properties properties;
+    private RegistrationHelper registrationHelper;
+    private FtpHelper ftp;
+    private MailHelper mailHelper;
 
 
     public ApplicationManager(String browser) {
@@ -31,23 +35,53 @@ public class ApplicationManager {
     public void init() throws IOException {
         String target = System.getProperty("target", "local");
         properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
-
-        if(Objects.equals(browser, FIREFOX)){
-            wd = new FirefoxDriver();
-        }else  if (Objects.equals(browser, CHROME)){
-            wd = new ChromeDriver();
-        }else if (Objects.equals(browser, EDGE)){
-            wd = new EdgeDriver();
-        }
-        wd.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
-        wd.get(properties.getProperty("web.baseURL"));
-
     }
-
-
 
     public void stop() {
-        wd.quit();
+        if (wd != null) {
+            wd.quit();
+        }
+    }
+ public HttpSession newSession(){
+        return new HttpSession(this);
     }
 
+    public String getProperty(String key) {
+       return properties.getProperty(key);
+    }
+
+    public RegistrationHelper registration() {
+        if(registrationHelper==null){
+            registrationHelper =  new RegistrationHelper(this) ;
+        }
+        return registrationHelper;
+    }
+    public FtpHelper ftp(){
+        if(ftp==null){
+            ftp = new FtpHelper(this);
+        }
+        return ftp;
+    }
+    public MailHelper mail(){
+        if(mailHelper == null){
+            mailHelper = new MailHelper(this);
+        }
+        return mailHelper;
+    }
+
+    public WebDriver getDriver() {
+        if(wd==null){
+            if(Objects.equals(browser, FIREFOX)){
+                wd = new FirefoxDriver();
+            }else  if (Objects.equals(browser, CHROME)){
+                wd = new ChromeDriver();
+            }else if (Objects.equals(browser, EDGE)){
+                wd = new EdgeDriver();
+            }
+            wd.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+            wd.get(properties.getProperty("web.baseUrl"));
+        }
+        return wd;
+    }
 }
+
