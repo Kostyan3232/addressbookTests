@@ -1,4 +1,4 @@
-package ru.stqa.pft.sandbox1;
+package ru.stqa.pft.sandbox;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -10,7 +10,7 @@ public class EquationTests {
   public void test0() {
     Equation e = new Equation(1, 1, 1);
     Assert.assertEquals(e.rootNumer(), 0);
-//    Assert.assertEquals(e.rootNumer(), 10); // ломаем тест для проверки
+
   }
 
   @Test

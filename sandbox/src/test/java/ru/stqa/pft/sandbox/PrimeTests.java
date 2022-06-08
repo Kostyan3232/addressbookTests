@@ -1,4 +1,4 @@
-package ru.stqa.pft.sandbox1;
+package ru.stqa.pft.sandbox;
 
 
 import org.testng.Assert;
