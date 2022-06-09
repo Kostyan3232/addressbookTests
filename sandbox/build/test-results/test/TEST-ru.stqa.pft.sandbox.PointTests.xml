@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ru.stqa.pft.sandbox.PointTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-06-08T19:18:34" hostname="WIN-M01875R9P9L" time="0.009">
+  <properties/>
+  <testcase name="testsPoint" classname="ru.stqa.pft.sandbox.PointTests" time="0.009"/>
+  <system-out><![CDATA[СЂР°СЃСЃС‚РѕСЏРЅРёРµ РјРµР¶РґСѓ С‚РѕС‡РєР°РјРё =1.4142135623730951
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

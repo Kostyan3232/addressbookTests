@@ -1,0 +1,58 @@
+apply plugin:'java'
+
+repositories {
+    mavenCentral()
+}
+dependencies {
+
+    //implementation 'cz.alry.jcommander:jcommander-wrapper:1.3.0'
+    testImplementation group: 'org.testng', name: 'testng', version: '6.9.10'
+    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '2.52.0'
+    // https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
+   // implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
+
+    testImplementation group: 'org.hamcrest', name: 'hamcrest', version: '2.1'
+    // https://mvnrepository.com/artifact/com.beust/jcommander
+    //implementation group: 'com.beust', name: 'jcommander', version: '1.48'
+// https://mvnrepository.com/artifact/com.thoughtworks.xstream/xstream
+    //implementation group: 'com.thoughtworks.xstream', name: 'xstream', version: '1.4.17'
+    // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
+   // testImplementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.11'
+
+
+
+// https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+    //implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.0-alpha1'
+
+// https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
+    //testImplementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.3.0-alpha14'
+    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '5.1.38'
+    // https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-core
+    // https://mvnrepository.com/artifact/org.hibernate/hibernate-core
+    implementation group: 'org.hibernate', name: 'hibernate-core', version: '5.1.0.Final'
+    // https://mvnrepository.com/artifact/commons-net/commons-net
+    implementation group: 'commons-net', name: 'commons-net', version: '3.4'
+// https://mvnrepository.com/artifact/org.subethamail/subethasmtp
+    testImplementation group: 'org.subethamail', name: 'subethasmtp', version: '3.1.7'
+// https://mvnrepository.com/artifact/ru.lanwen.verbalregex/java-verbal-expressions
+    implementation group: 'ru.lanwen.verbalregex', name: 'java-verbal-expressions', version: '1.4'
+
+
+}
+ task {
+    useTestNG{
+        suites 'src/test/testng.xml'
+    }
+     if (project.hasProperty('browser')){
+         systemProperty'browser', "${browser}"
+     }
+     if (project.hasProperty('target')){
+         systemProperty  'target', "${target}"
+     }
+     if (project.hasProperty('verifyUI')){
+         systemProperty 'verifyUI', "${verifyUI}"
+     }
+
+}
+
