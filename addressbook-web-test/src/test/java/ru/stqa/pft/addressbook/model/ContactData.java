@@ -23,7 +23,8 @@ public class ContactData {
     private String lastname;
 
     @Column(name = "address")
-    transient private  String address;
+    @Type(type = "text")
+    private  String address;
     @Column(name = "home")
     @Type(type = "text")
     private  String homephone;
@@ -38,10 +39,6 @@ public class ContactData {
     @Column(name = "photo")
     @Type(type = "text")
     private String photo;
-
-    public String getGroup() {
-        return group;
-    }
     @Transient
     private String group;
     @ManyToMany(fetch = FetchType.EAGER)
@@ -51,6 +48,9 @@ public class ContactData {
 
     public Groups getGroups() {
         return new Groups(groups);
+    }
+    public String getGroup() {
+        return group;
     }
 
     public ContactData withPhoto(File photo) {
@@ -62,9 +62,40 @@ public class ContactData {
         return new File( photo);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        ContactData that = (ContactData) o;
 
-    //public ContactData withtDetail(String detail) {
+        if (id != that.id) return false;
+        if (firstname != null ? !firstname.equals(that.firstname) : that.firstname != null) return false;
+        if (middlename != null ? !middlename.equals(that.middlename) : that.middlename != null) return false;
+        if (lastname != null ? !lastname.equals(that.lastname) : that.lastname != null) return false;
+        if (address != null ? !address.equals(that.address) : that.address != null) return false;
+        if (homephone != null ? !homephone.equals(that.homephone) : that.homephone != null) return false;
+        if (mobile != null ? !mobile.equals(that.mobile) : that.mobile != null) return false;
+        if (workphone != null ? !workphone.equals(that.workphone) : that.workphone != null) return false;
+        if (email != null ? !email.equals(that.email) : that.email != null) return false;
+        return photo != null ? photo.equals(that.photo) : that.photo == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
+        result = 31 * result + (middlename != null ? middlename.hashCode() : 0);
+        result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + (homephone != null ? homephone.hashCode() : 0);
+        result = 31 * result + (mobile != null ? mobile.hashCode() : 0);
+        result = 31 * result + (workphone != null ? workphone.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (photo != null ? photo.hashCode() : 0);
+        return result;
+    }
+//public ContactData withtDetail(String detail) {
        // this.detail = detail;
        // return  this;
    // }
@@ -141,19 +172,6 @@ public class ContactData {
                 ", lastname='" + lastname + '\'' +
                 ", address='" + address + '\'' +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ContactData that = (ContactData) o;
-        return id == that.id && Objects.equals(firstname, that.firstname) && Objects.equals(middlename, that.middlename) && Objects.equals(lastname, that.lastname) && Objects.equals(address, that.address);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, firstname, middlename, lastname, address);
     }
 
     public int getId() {

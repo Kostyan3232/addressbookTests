@@ -13,14 +13,19 @@ import ru.stqa.pft.addressbook.model.Groups;
 import java.util.List;
 
 public class DbHelper {
-    private final SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
 
     public DbHelper() {
-        // A SessionFactory is set up once for an application!
+
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .configure() // configures settings from hibernate.cfg.xml
                 .build();
-        sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+        try {
+            sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
 
 
     }
@@ -37,19 +42,12 @@ public class DbHelper {
     public Contacts contacts() {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        List result = session.createQuery("from ContactData where deprecated = '0000-00-00'").list();
+        List result = session.createQuery("from ContactData where deprecated ='0000-00-00' ").list();
         session.getTransaction().commit();
         session.close();
         return new Contacts(result);
     }
-    //public Groups beforeGroup() {
-      //  Session session = sessionFactory.openSession();
-      //  session.beginTransaction();
-       // List result = session.createQuery("from ContactData where deprecated = '0000-00-00'").list();
-       // session.getTransaction().commit();
-      //  session.close();
-      ///  return new beforeGroup(result);
-   // }
+
 
 }
 

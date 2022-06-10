@@ -49,22 +49,17 @@ public class GroupCreationTests extends TestBase{
   @Test(dataProvider = "validGroups")
   public void testGroupCreation(GroupData group)  {
     //GroupData group = new GroupData().withName(name).withHeader(header).withFooter(footer);
-      Groups before = app.db().groups();
       app.goTo().groupPage();
+      Groups before = app.db().groups();
       app.Group().createGroup(group);
       Groups after = app.db().groups();
-      //assertThat(after, equalTo(before));
+      assertThat(after, equalTo(before));
       //assertThat(after.size(), equalTo(before.size()+1));
 
-      assertThat(after, equalTo(before.withAdded(group.withId((after.stream().mapToInt(GroupData::getId).max().getAsInt())))));
-      verifyGroupListInUI();
-
+      //assertThat(after, equalTo(before.withAdded(group.withId((after.stream().mapToInt(GroupData::getId).max().getAsInt())))));
+     // verifyGroupListInUI();
 
     }
-
-
-
-    //group.withId((after.stream().mapToInt(GroupDate::getId).max().getAsInt()));
 
   }*/
 

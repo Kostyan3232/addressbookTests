@@ -11,7 +11,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @XStreamAlias("group")
-@Entity
+@Entity//привязка к базе
 @Table (name = "group_list")
 public class GroupData {
 @XStreamOmitField
@@ -22,18 +22,6 @@ private int id = Integer.MAX_VALUE;
 @Column(name = "group_name")
     private String name;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        GroupData groupData = (GroupData) o;
-        return id == groupData.id && Objects.equals(name, groupData.name) && Objects.equals(header, groupData.header) && Objects.equals(footer, groupData.footer);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, header, footer);
-    }
     @Expose
 @Column(name = "group_header")
 @Type(type = "text")
@@ -49,6 +37,28 @@ private int id = Integer.MAX_VALUE;
     public String getName() {
         return name;
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        GroupData groupData = (GroupData) o;
+
+        if (id != groupData.id) return false;
+        if (name != null ? !name.equals(groupData.name) : groupData.name != null) return false;
+        if (header != null ? !header.equals(groupData.header) : groupData.header != null) return false;
+        return footer != null ? footer.equals(groupData.footer) : groupData.footer == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (header != null ? header.hashCode() : 0);
+        result = 31 * result + (footer != null ? footer.hashCode() : 0);
+        return result;
     }
 
     public Contacts getContacts() {
@@ -92,7 +102,6 @@ private int id = Integer.MAX_VALUE;
                 ", id='" + id + '\'' +
                 '}';
     }
-
 
 
 }
