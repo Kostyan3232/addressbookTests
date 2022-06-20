@@ -50,8 +50,7 @@ public class DeleteContafromGrop extends TestBase {
 
         MatcherAssert.assertThat((after.size()), CoreMatchers.equalTo(before.size())); // проверка на совпадение колич-ва контактов
 
-       //Groups afterGroup = app.db().contactAllCountGroups(); // после удаление контакта из группы
-        // проверка на соответствие
+       //Groups afterGroup = app.db().contactAllCountGroups();
         //MatcherAssert.assertThat(((afterGroup)), CoreMatchers.equalTo(new Groups(beforeGroup.without(groupForContact))));
 
 

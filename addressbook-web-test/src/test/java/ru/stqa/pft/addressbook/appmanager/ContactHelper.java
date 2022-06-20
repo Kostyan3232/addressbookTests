@@ -163,11 +163,15 @@ public class ContactHelper extends HelperBase {
 
 
     public void ContactDelToGroup(int id, String name) {
+            //new Select(wd.findElement(By.name("group"))).selectByVisibleText(name);
+            //wd.findElement(By.xpath("//input[@value='"+ id +"']")).click();
+        wd.findElement(By.xpath(String.format("//a[@href = 'view.php?id=%s']",id))).click();
+        wd.findElement(By.xpath(" //a[@href='./index.php?group=226']")).click();
+       //wd.findElement(By.xpath(String.format(" //a[@href='./index.php?group=%s']",id))).click();
+        wd.findElement(By.xpath("//input[@name='remove']")).click();
+        //a[@href='./index.php?group=226']
+        //a[@href='view.php?id=363']
 
-// в выпадающем списке выбрали имя группы в которую входит контакт
-            new Select(wd.findElement(By.name("group"))).selectByVisibleText(name);
-            wd.findElement(By.xpath("//input[@value='"+ id +"']")).click();
-            click(By.name("remove")); // активировали кнопку удалить контакт из выбранной группы с именем name
 
     }
 

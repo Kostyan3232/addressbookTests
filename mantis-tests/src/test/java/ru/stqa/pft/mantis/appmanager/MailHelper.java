@@ -15,19 +15,14 @@ public class MailHelper {
 
     public MailHelper(ApplicationManager app) {
         this.app = app;
-        wiser = new Wiser(); // почтовый сервер
+        wiser = new Wiser();
     }
 
     public List<MailMessage> waitForMail(int count, long timeout)  {
         long start = System.currentTimeMillis();
         while (System.currentTimeMillis() < start + timeout) {
             if (wiser.getMessages().size() >= count) {
-                // преобразование реальных объектов почты в наши модельные объекты формата представления почты
-                // (у нас это два поля: кому пришло письмо и текст этого письма)
-                // берется список wiser.getMessages() превращается в поток stream() и ко всем элементам потока
-                // применяется ф-я (m)->toModeMail(m) и получившиеся новые объекты собираем снова в список collect(Collectors.toList())
                 return wiser.getMessages().stream().map((m)->toModeMail(m)).collect(Collectors.toList());
-
             }
             try {
                 Thread.sleep(1000);
@@ -39,13 +34,11 @@ public class MailHelper {
         throw new Error("No mail");
     }
 
-    public static MailMessage toModeMail(WiserMessage m) { // преобразование реальных почтовых сообщений в модельные
+    public static MailMessage toModeMail(WiserMessage m) {
 
         try {
             MimeMessage nm = m.getMimeMessage();
-            // берется реальный объект nm.getAllRecipients() список получателей  и берем первого из них [0].toString()
-            // а т.к. письмо mantis посылает текстовое, то объект контент есть обычная строка
-            // преобразуем его в строку (String) nm.getContent() и полученное значение попадает в модельный объект MailMessage
+
             return new MailMessage(nm.getAllRecipients()[0].toString(), (String) nm.getContent());
         } catch (IOException e) {
             e.printStackTrace();
@@ -55,8 +48,8 @@ public class MailHelper {
         }
     }
 
-    public void start () {wiser.start();} // запуск почтового сервера
-    public void stop () {wiser.stop();}   // остановка почтового сервера
+    public void start () {wiser.start();}
+    public void stop () {wiser.stop();}
 
 }
 

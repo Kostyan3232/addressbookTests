@@ -1,4 +1,4 @@
-/*package ru.stqa.pft.addressbook.Test;
+package ru.stqa.pft.addressbook.Test;
 
 
 import com.thoughtworks.xstream.XStream;
@@ -53,15 +53,15 @@ public class GroupCreationTests extends TestBase{
       Groups before = app.db().groups();
       app.Group().createGroup(group);
       Groups after = app.db().groups();
-      assertThat(after, equalTo(before));
-      //assertThat(after.size(), equalTo(before.size()+1));
+      //assertThat(after, equalTo(before));
+      assertThat(after.size(), equalTo(before.size()+1));
 
       //assertThat(after, equalTo(before.withAdded(group.withId((after.stream().mapToInt(GroupData::getId).max().getAsInt())))));
-     // verifyGroupListInUI();
+      verifyGroupListInUI();
 
     }
 
-  }*/
+  }
 
 
 

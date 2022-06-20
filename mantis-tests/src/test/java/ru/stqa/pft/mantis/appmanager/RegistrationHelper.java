@@ -3,23 +3,22 @@ package ru.stqa.pft.mantis.appmanager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class RegistrationHelper {
-    private final ApplicationManager app;
+public class RegistrationHelper extends HelperBase {
     private WebDriver wd;
     public RegistrationHelper(ApplicationManager app) {
-        this.app = app;
+        super(app);
         wd= app.getDriver();
     }
 
     public void start(String username, String email) {
-       wd.get(app.getProperty("web.baseUrl") + "/signup_page.php");
+       wd.get(app.getProperty("web.baseURL") + "/signup_page.php");
         wd.findElement(By.name("username")).sendKeys(username);
         wd.findElement(By.name("email")).sendKeys(email);
         click(By.xpath("//input[@class='button']"));
 
     }
 
-    private void click(By xpath) {
+    public void click(By xpath) {
 
     }
 
@@ -27,10 +26,10 @@ public class RegistrationHelper {
         wd.get(confirmationLink);
         type(By.name("password"),password);
         type(By.name("password_confirm"),password);
-        click(By.cssSelector("input=[Uppdate_User]")) ;
+        click(By.cssSelector("input=[Update_User]")) ;
     }
 
-    private void type(By password, String password1) {
+    public void type(By password, String password1) {
 
     }
 }

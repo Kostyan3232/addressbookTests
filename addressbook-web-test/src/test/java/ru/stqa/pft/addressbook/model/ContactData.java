@@ -39,8 +39,10 @@ public class ContactData {
     @Column(name = "photo")
     @Type(type = "text")
     private String photo;
-    @Transient
-    private String group;
+    ///@Transient
+   // private String group;
+
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "address_in_groups",
             joinColumns = @JoinColumn(name = "id"),inverseJoinColumns = @JoinColumn(name="group_id"))
@@ -49,9 +51,9 @@ public class ContactData {
     public Groups getGroups() {
         return new Groups(groups);
     }
-    public String getGroup() {
-        return group;
-    }
+    ///public String getGroup() {
+     //   return group;
+   // }
 
     public ContactData withPhoto(File photo) {
         this.photo = photo.getPath();
@@ -100,10 +102,10 @@ public class ContactData {
        // return  this;
    // }
 
-    public ContactData withGroup(String group) {
-        this.group = group;
-        return this;
-    }
+    //public ContactData withGroup(String group) {
+       // this.group = group;
+       // return this;
+ //   }
 
     //public String getDetail() {
        // return detail;

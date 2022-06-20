@@ -21,26 +21,22 @@ public class HttpSession {
 
     public HttpSession(ApplicationManager app) {
         this.app = app;
-        // создали новую сессию по протоколу Http
-        // т.е. создали объект для запроса на сервер со стратегией перенаправления LaxRedirectStrategy()
         httpclient = HttpClients.custom().setRedirectStrategy(new LaxRedirectStrategy()).build();
     }
 
-    // метод выполнения login
     public boolean login(String username, String password) throws IOException {
-        // подготовка запроса по адресу
-        HttpPost post = new HttpPost(app.getProperty("web.baseUrl") + "/login.php");
-        // формирование параметров в запросе т.к. он пока пустой
+
+        HttpPost post = new HttpPost(app.getProperty("web.baseURL") + "/login.php");
+
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("username", username));
         params.add(new BasicNameValuePair("password", password));
         params.add(new BasicNameValuePair("secure_session", "on"));
         params.add(new BasicNameValuePair("return", "index.php"));
-        // упаковка params с помощью UrlEncodedFormEntity и помещение post.setEntity в созданный запрос post
+
         post.setEntity(new UrlEncodedFormEntity(params));
-        CloseableHttpResponse response = httpclient.execute(post); // отправка запроса
-        String body = geTextFrom(response); // анализ возвращенного результата запроса т.е. текста body = geTextFrom(response)
-        // проверяется по строчке "<span class=\"italic\">%s</span>" действительно ли пользователь username вошел
+        CloseableHttpResponse response = httpclient.execute(post);
+        String body = geTextFrom(response);
         return body.contains(String.format("<span id=\"logged-in-user\">%s</span>", username));
 
     }
@@ -52,9 +48,8 @@ public class HttpSession {
             response.close();
         }
     }
-    // метод определяет  какой пользователь  (зашел в систему)
     public boolean isLoggedInAs(String username) throws IOException {
-        HttpGet get = new HttpGet(app.getProperty("web.baseUrl") + "/index.php");
+        HttpGet get = new HttpGet(app.getProperty("web.baseURL") + "/index.php");
         CloseableHttpResponse response = httpclient.execute(get); // get запросу параметры не нужны он проще
         String body = geTextFrom(response);
         return body.contains(String.format("<span id=\"logged-in-user\">%s</span>", username));
